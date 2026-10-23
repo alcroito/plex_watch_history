@@ -137,6 +137,8 @@ PLEX_TOKEN=...
 SIMKL_CLIENT_ID=...
 ```
 
+`.env.example` lists every key with its default (`cp .env.example .env`).
+
 ## Usage
 
 ```
