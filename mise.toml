@@ -1,0 +1,56 @@
+# Common invocations; extra arguments are appended, e.g. `mise run simkl -- --title-regex ren`.
+# Settings (database path, tokens, client id) come from .env as usual.
+
+[tasks.test]
+description = "Run the tests"
+run = "python3 -m unittest discover -s tests -t ."
+
+# --- Looking at the database (no network unless noted) ---
+
+[tasks.list]
+description = "Watched items per show"
+run = "python3 plex_history.py list --by show"
+
+[tasks.unmappable]
+description = "Items export cannot map, with the reason (without show/season markers)"
+run = "python3 plex_history.py list --unmappable --by show --type episode --type movie --type unknown"
+
+[tasks.audit]
+description = "HAMA data problems checked against Simkl's catalog (no Simkl quota)"
+run = "python3 plex_history.py audit"
+
+# --- Simkl ---
+
+[tasks.simkl-quota]
+description = "Simkl requests left today (one counted request)"
+run = "python3 plex_history.py simkl-state quota"
+
+[tasks.simkl-login-refresh]
+description = "New Simkl access token from the saved refresh token"
+run = "python3 plex_history.py simkl-login --refresh"
+
+[tasks.simkl-dry]
+description = "Database -> Simkl, dry run (reads the Simkl library: about 9 counted requests)"
+run = "python3 plex_history.py export --dry-run -v"
+
+[tasks.simkl]
+description = "Database -> Simkl (orphaned and present), retrying earlier misses"
+run = "python3 plex_history.py export --retry-not-found -v"
+
+[tasks.simkl-orphaned-dry]
+description = "Orphaned items -> Simkl, dry run"
+run = "python3 plex_history.py export --only orphaned --dry-run -v"
+
+[tasks.simkl-orphaned]
+description = "Orphaned items -> Simkl"
+run = "python3 plex_history.py export --only orphaned -v"
+
+# --- Plex account (rate-limited to about 6 items per minute; Ctrl-C and rerun to continue) ---
+
+[tasks.plex-orphaned-dry]
+description = "Orphaned items -> Plex account, dry run (reads watch state)"
+run = "python3 plex_history.py export --target plex --only orphaned --skip-synced --dry-run"
+
+[tasks.plex-orphaned]
+description = "Orphaned items -> Plex account (resumable)"
+run = "python3 plex_history.py export --target plex --only orphaned --skip-synced -vv --timestamps"

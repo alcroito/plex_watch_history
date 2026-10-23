@@ -1,0 +1,15 @@
+*.db
+*.db-shm
+*.db-wal
+plex_metadata_cache.json
+simkl_not_found.json
+__pycache__/
+.env
+*.tmp
+tmdb_cache.json
+anime_ids.json
+simkl_sent.json
+plex_sent.json
+plex_not_found.json
+simkl_catalog_cache.json
+plex_pending.json
